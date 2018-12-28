@@ -7,7 +7,7 @@ regex = re.compile(r'[^\u4e00-\u9fa5aA-Za-z0-9]')
 
 def word_cut(text):
     text = regex.sub(' ', text)
-    return ' '.join([word for word in jieba.cut(text) if word.strip()]).split()
+    return [word for word in jieba.cut(text) if word.strip()]
 
 
 def get_dataset(path, text_field, label_field):
