@@ -14,8 +14,8 @@
 * jieba==0.39
 
 ## 词向量
-https://github.com/Embedding/Chinese-Word-Vectors
-
+https://github.com/Embedding/Chinese-Word-Vectors<br>
+（这里用的是Zhihu_QA 知乎问答训练出来的word Word2vec）
 ## 用法
 ```bash
 python3 main.py -h
