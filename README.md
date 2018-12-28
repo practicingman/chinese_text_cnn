@@ -1,5 +1,11 @@
 ## TextCNN Pytorch实现 中文文本分类
-论文[Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)
+## 论文
+[Convolutional Neural Networks for Sentence Classification](https://arxiv.org/abs/1408.5882)
+
+## 参考
+* https://github.com/yoonkim/CNN_sentence
+* https://github.com/dennybritz/cnn-text-classification-tf
+* https://github.com/Shawn1993/cnn-text-classification-pytorch
 
 ## 依赖项
 * python3.5
