@@ -13,6 +13,9 @@
 * torchtext==0.3.1
 * jieba==0.39
 
+## 词向量
+https://github.com/Embedding/Chinese-Word-Vectors
+
 ## 用法
 ```bash
 python3 main.py -h
