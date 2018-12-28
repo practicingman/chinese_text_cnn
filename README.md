@@ -16,3 +16,8 @@ python3 main.py -h
 ```bash
 python3 main.py
 ```
+
+## 结构
+-[x] CNN-non-static
+-[ ] CNN-static
+-[ ] CNN-multichannel
