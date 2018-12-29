@@ -1,6 +1,8 @@
 import argparse
 import torch
 import torchtext.data as data
+from torchtext.vocab import Vectors
+
 import model
 import train
 import dataset
@@ -14,7 +16,6 @@ parser.add_argument('-log-interval', type=int, default=1,
                     help='how many steps to wait before logging training status [default: 1]')
 parser.add_argument('-test-interval', type=int, default=100,
                     help='how many steps to wait before testing [default: 100]')
-parser.add_argument('-save-interval', type=int, default=500, help='how many steps to wait before saving [default:500]')
 parser.add_argument('-save-dir', type=str, default='snapshot', help='where to save the snapshot')
 parser.add_argument('-early-stopping', type=int, default=1000,
                     help='iteration numbers to stop without performance increasing')
@@ -26,6 +27,12 @@ parser.add_argument('-embedding-dim', type=int, default=128, help='number of emb
 parser.add_argument('-filter-num', type=int, default=100, help='number of each size of filter')
 parser.add_argument('-filter-sizes', type=str, default='3,4,5',
                     help='comma-separated filter sizes to use for convolution')
+
+parser.add_argument('-static', type=bool, default=False, help='whether to use static pre-trained word vectors')
+parser.add_argument('-pretrained-name', type=str, default='sgns.zhihu.word',
+                    help='filename of pre-trained word vectors')
+parser.add_argument('-pretrained-path', type=str, default='pretrained', help='path of pre-trained word vectors')
+
 # device
 parser.add_argument('-device', type=int, default=-1, help='device to use for iterate data, -1 mean cpu [default: -1]')
 
@@ -34,9 +41,18 @@ parser.add_argument('-snapshot', type=str, default=None, help='filename of model
 args = parser.parse_args()
 
 
-def load_dataset(text_field, label_field, **kwargs):
+def load_word_vectors(model_name, model_path):
+    vectors = Vectors(name=model_name, cache=model_path)
+    return vectors
+
+
+def load_dataset(text_field, label_field, args, **kwargs):
     train_dataset, dev_dataset = dataset.get_dataset('data', text_field, label_field)
-    text_field.build_vocab(train_dataset, dev_dataset)
+    if args.static and args.pretrained_name and args.pretrained_path:
+        vectors = load_word_vectors(args.pretrained_name, args.pretrained_path)
+        text_field.build_vocab(train_dataset, dev_dataset, vectors=vectors)
+    else:
+        text_field.build_vocab(train_dataset, dev_dataset)
     label_field.build_vocab(train_dataset, dev_dataset)
     train_iter, dev_iter = data.Iterator.splits(
         (train_dataset, dev_dataset),
@@ -46,19 +62,24 @@ def load_dataset(text_field, label_field, **kwargs):
     return train_iter, dev_iter
 
 
-print("Loading data...")
+print('Loading data...')
 text_field = data.Field(lower=True)
 label_field = data.Field(sequential=False)
-train_iter, dev_iter = load_dataset(text_field, label_field, device=-1, repeat=False, shuffle=True)
+train_iter, dev_iter = load_dataset(text_field, label_field, args, device=-1, repeat=False, shuffle=True)
 
 args.vocabulary_size = len(text_field.vocab)
+if args.static:
+    args.embedding_dim = text_field.vocab.vectors.size()[-1]
+    args.vectors = text_field.vocab.vectors
 args.class_num = len(label_field.vocab)
 args.cuda = args.device != -1 and torch.cuda.is_available()
 args.filter_sizes = [int(size) for size in args.filter_sizes.split(',')]
 
-print("Parameters:")
+print('Parameters:')
 for attr, value in sorted(args.__dict__.items()):
-    print("\t{}={}".format(attr.upper(), value))
+    if attr in {'vectors'}:
+        continue
+    print('\t{}={}'.format(attr.upper(), value))
 
 text_cnn = model.TextCNN(args)
 if args.snapshot:

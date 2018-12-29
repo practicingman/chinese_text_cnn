@@ -43,8 +43,8 @@ def train(train_iter, dev_iter, model, args):
                         save(model, args.save_dir, 'best', steps)
                 else:
                     if steps - last_step >= args.early_stopping:
-                        print('\nearly stop by {} steps.'.format(args.early_stopping))
-                        break
+                        print('\nearly stop by {} steps, acc: {:.4f}%'.format(args.early_stopping, best_acc))
+                        raise KeyboardInterrupt
 
 
 def eval(data_iter, model, args):

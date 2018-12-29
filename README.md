@@ -18,6 +18,6 @@ python3 main.py
 ```
 
 ## 结构
--[x] CNN-non-static
--[ ] CNN-static
+-[x] CNN-non-static 随机初始化Embedding
+-[x] CNN-static 使用预训练的静态词向量
 -[ ] CNN-multichannel

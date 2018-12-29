@@ -8,14 +8,17 @@ class TextCNN(nn.Module):
         super(TextCNN, self).__init__()
         self.args = args
 
-        vocabulary_size = args.vocabulary_size
-        embedding_dimension = args.embedding_dim
         class_num = args.class_num
         chanel_num = 1
         filter_num = args.filter_num
         filter_sizes = args.filter_sizes
 
+        vocabulary_size = args.vocabulary_size
+        embedding_dimension = args.embedding_dim
         self.embedding = nn.Embedding(vocabulary_size, embedding_dimension)
+        if args.static:
+            self.embedding = self.embedding.from_pretrained(args.vectors)
+
         self.convs = nn.ModuleList(
             [nn.Conv2d(chanel_num, filter_num, (size, embedding_dimension)) for size in filter_sizes])
         self.dropout = nn.Dropout(args.dropout)

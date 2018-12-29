@@ -102,3 +102,6 @@ trees
 
 # pycharm
 .idea
+
+#word2vec
+sgns.zhihu.word  
