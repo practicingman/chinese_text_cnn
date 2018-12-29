@@ -30,6 +30,7 @@ parser.add_argument('-filter-sizes', type=str, default='3,4,5',
 
 parser.add_argument('-static', type=bool, default=False, help='whether to use static pre-trained word vectors')
 parser.add_argument('-non-static', type=bool, default=False, help='whether to fine-tune static pre-trained word vectors')
+parser.add_argument('-multichannel', type=bool, default=False, help='whether to use 2 channel of word vectors')
 parser.add_argument('-pretrained-name', type=str, default='sgns.zhihu.word',
                     help='filename of pre-trained word vectors')
 parser.add_argument('-pretrained-path', type=str, default='pretrained', help='path of pre-trained word vectors')
@@ -72,6 +73,9 @@ args.vocabulary_size = len(text_field.vocab)
 if args.static:
     args.embedding_dim = text_field.vocab.vectors.size()[-1]
     args.vectors = text_field.vocab.vectors
+if args.multichannel:
+    args.static = True
+    args.non_static = True
 args.class_num = len(label_field.vocab)
 args.cuda = args.device != -1 and torch.cuda.is_available()
 args.filter_sizes = [int(size) for size in args.filter_sizes.split(',')]
