@@ -29,6 +29,7 @@ parser.add_argument('-filter-sizes', type=str, default='3,4,5',
                     help='comma-separated filter sizes to use for convolution')
 
 parser.add_argument('-static', type=bool, default=False, help='whether to use static pre-trained word vectors')
+parser.add_argument('-non-static', type=bool, default=False, help='whether to fine-tune static pre-trained word vectors')
 parser.add_argument('-pretrained-name', type=str, default='sgns.zhihu.word',
                     help='filename of pre-trained word vectors')
 parser.add_argument('-pretrained-path', type=str, default='pretrained', help='path of pre-trained word vectors')

@@ -37,11 +37,18 @@ python3 main.py
         early stop by 1000 steps, acc: 94.0000%
 - [x] CNN-static 使用预训练的静态词向量
     ```bash
-      python main.py -static
+      python main.py -static=true
     ```
     >
         Batch[1900] - loss: 0.011894  acc: 100.0000%(128/128)
         Evaluation - loss: 0.000018  acc: 95.0000%(6679/7000)
         early stop by 1000 steps, acc: 95.0000%
-
+- [x] CNN-static 微调预训练的静态词向量
+    ```bash
+      python main.py -static=true -no-static=true
+    ```
+    >
+        Batch[1500] - loss: 0.008823  acc: 99.0000%(127/128))
+        Evaluation - loss: 0.000016  acc: 96.0000%(6729/7000)
+        early stop by 1000 steps, acc: 96.0000%
 - [ ] CNN-multichannel

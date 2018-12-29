@@ -17,7 +17,7 @@ class TextCNN(nn.Module):
         embedding_dimension = args.embedding_dim
         self.embedding = nn.Embedding(vocabulary_size, embedding_dimension)
         if args.static:
-            self.embedding = self.embedding.from_pretrained(args.vectors)
+            self.embedding = self.embedding.from_pretrained(args.vectors, freeze=not args.non_static)
 
         self.convs = nn.ModuleList(
             [nn.Conv2d(chanel_num, filter_num, (size, embedding_dimension)) for size in filter_sizes])
