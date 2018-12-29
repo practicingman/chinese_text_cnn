@@ -27,12 +27,18 @@ python3 main.py
 ```
 
 ## 准确率
-- [x] CNN-non-static 随机初始化Embedding
+- [x] CNN-rand 随机初始化Embedding
+    ```bash
+      python main.py
+    ```
     >
         Batch[1800] - loss: 0.009499  acc: 100.0000%(128/128)
         Evaluation - loss: 0.000026  acc: 94.0000%(6616/7000)
         early stop by 1000 steps, acc: 94.0000%
 - [x] CNN-static 使用预训练的静态词向量
+    ```bash
+      python main.py -static
+    ```
     >
         Batch[1900] - loss: 0.011894  acc: 100.0000%(128/128)
         Evaluation - loss: 0.000018  acc: 95.0000%(6679/7000)
