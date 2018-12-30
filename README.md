@@ -43,7 +43,7 @@ python3 main.py
         Batch[1900] - loss: 0.011894  acc: 100.0000%(128/128)
         Evaluation - loss: 0.000018  acc: 95.0000%(6679/7000)
         early stop by 1000 steps, acc: 95.0000%
-- [x] CNN-static 微调预训练的词向量
+- [x] CNN-non-static 微调预训练的词向量
     ```bash
       python main.py -static=true -non-static=true
     ```
